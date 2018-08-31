@@ -1,0 +1,58 @@
+the essense of what we're trying to do: 
+
+/* 
+the brain has the job of making the decisions. the agent itself is the game. the game sends feedback to the brain, which tells the 
+agents how to further refine the agent. the academy is simply the holding place for all the decisions made. the brain is the part where you have certain 
+actions performed 
+
+-agents = the actual logic of the game removed of machine learning + rewards 
+-brain = based off of the agents, the logic of the machine learning, rewards + actions 
+
+
+The Academy object coordinates the ML-Agents in the scene and drives the decision-making portion of the simulation loop. Every ML-Agent scene needs one Academy instance. 
+Since the base Academy class is abstract, you must make your own subclass even if you don't need to use any of the methods for a particular environment.
+
+
+The Brain object encapsulates the decision making process. An Agent sends its observations to its Brain and expects a decision in return.
+ The Brain Type setting determines how the Brain makes decisions. Unlike the Academy and Agent classes, you don't make your own Brain subclasses.
+
+The Agent sends the information we collect to the Brain, which uses it to make a decision. When you train the agent (or use a trained model), 
+the data is fed into a neural network as a feature vector. For an agent to successfully learn a task, we need to provide the correct information. 
+A good rule of thumb for deciding what information to collect is to consider what you would need to calculate an analytical solution to the problem.
+
+	- need to create extra variables to verify that the agent that you're creating has all the necessary tools to send feedback in a way that the
+	 brain can guide it/make more refined decisions so that the brain can make correct decisions 
+	 - these variables are called observations. you should include them in a separate method that's called "collect observations "
+
+ Agent code is the Agent.AgentAction() function
+
+The decision of the Brain comes in the form of an action array passed to the AgentAction() function. 
+The number of elements in this array is determined by the Vector Action Space Type and Vector Action Space Size settings of the agent's Brain. 
+The RollerAgent uses the continuous vector action space and needs two continuous control signals from the brain. Thus, we will set the Brain Vector Action Size to 2. 
+The first element,action[0] determines the force applied along the x axis; action[1] determines the force applied along the z axis. 
+(If we allowed the agent to move in three dimensions, then we would need to set Vector Action Size to 3. Each of these values returned by the network are between -1 and 1. 
+Note the Brain really has no idea what the values in the action array mean.
+he training process just adjusts the action values in response to the observation input and then sees what kind of rewards it gets as a result. 
+
+Reinforcement learning requires rewards. Assign rewards in the AgentAction() function. 
+The learning algorithm uses the rewards assigned to the agent at each step in the simulation and learning process to determine whether it is giving the agent the optimal actions.
+You want to reward an agent for completing the assigned task (reaching the Target cube, in this case) and punish the agent if it irrevocably fails (falls off the platform). 
+You can sometimes speed up training with sub-rewards that encourage behavior that helps the agent complete the task. 
+For example, the RollerAgent reward system provides a small reward if the agent moves closer to the target in a step and a 
+small negative reward at each step which encourages the agent to complete its task quickly.
+
+
+- the actions are made by the brain, but the agent itself is the one that relays the rewards and therefore changes the next few actions. the brain simply makes decisions based on 
+the rewards already provided by the agent
+
+Where U() is the utility function table. The agent is penalized with a reward of -100 for each level it goes above the working height, otherwise reward is set to 0. The intuition behind using a discount factor, gamma < 1.0, is because even though we may eventually have to position a piece that puts us above the working height it is best to avoid that situation as long as possible. Furthermore, a discount factor bounds the utility values which could otherwise go to positive or negative infinity. Using incremental learning (alpha
+
+<1.0) instead of just making the direct assignment: >
+ 
+        U(state) = reward + gamma*U(nextstate)
+is necessary because of the non-deterministic element (the shape of the next piece is random) in the Tetris environment.]
+
+
+ 
+
+
